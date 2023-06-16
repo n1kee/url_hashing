@@ -28,6 +28,11 @@ class Url
     private $hash;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $is_reported;
+
+    /**
      * @ORM\Column(name="created_date", type="datetime_immutable")
      */
     private $createdDate;

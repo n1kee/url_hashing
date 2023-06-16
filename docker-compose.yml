@@ -32,3 +32,11 @@ services:
             MYSQL_DATABASE: url_shortener
             MYSQL_USER: user
             MYSQL_PASSWORD: user
+    unigine_url_stats:
+        ports:
+            - "8080:80"
+        build:
+            context: ./
+            dockerfile: ./images/url-stats/Dockerfile
+        volumes:
+            - ./url-stats:/app

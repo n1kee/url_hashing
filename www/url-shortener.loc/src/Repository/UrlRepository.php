@@ -28,4 +28,37 @@ class UrlRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
+
+    public function findOneByUrl(string $value): ?Url
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.url = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    public function getAllUnreported(): ?array
+    {
+        return $this->createQueryBuilder('u')
+            ->select(['u.id', 'u.url', 'u.createdDate'])
+            ->andWhere('u.is_reported IS NULL')
+            ->orWhere('u.is_reported <> 1')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function markAsReported(array $urlIds): int
+    {
+        return $this->createQueryBuilder('u')
+            ->update()
+            ->set('u.is_reported', 1)
+            ->where("u.id IN (:urlIds)")
+            ->setParameter('urlIds', $urlIds)
+            ->getQuery()
+            ->execute()
+        ;
+    }
 }
